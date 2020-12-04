@@ -1,34 +1,32 @@
+def getBaseMap(rawMap):
+	# clean trailing newline
+	baseMap = map(lambda mapline: mapline.split('\n')[0], rawMap)
+	return baseMap
 
+def getMapDimensions(baseMap):
+	height = len(baseMap)
+	width = len(baseMap[0])
+	return (height, width)
 
-def getTreesEncounted(rightVal, downVal, dotMap, mapHeight, mapWidth):
-	treesEncountered = 0
-	position = rightVal
-	for i in xrange(downVal, mapHeight, downVal):
-		if dotMap[i][position] == '#':
-			treesEncountered += 1
-		position += rightVal
-		position = position % mapWidth
-	return treesEncountered
-
+def getPathForSlope(baseMap, slope):
+	(mapHeight, mapWidth) = getMapDimensions(baseMap)
+	(slopeRight, slopeDown) = slope
+	path = []
+	position = 0
+	for i in xrange(slopeDown, mapHeight, slopeDown):
+		position = (position + slopeRight) % mapWidth
+		path.append(baseMap[i][position])
+	return path
 
 def solution():
 	inputFile = open('../input.txt', 'r') 
-	dotMap = inputFile.readlines()
-	mapHeight = len(dotMap)
-	[mapLine, empty] = dotMap[0].split('\n')
-	mapWidth = len(mapLine)
-	options = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-	# options = [(1, 2)]
-	product = 1
-	for option in options:
-		trees = getTreesEncounted(option[0], option[1], dotMap, mapHeight, mapWidth)
-		# print(str(option[0]) + '\t' + str(option[1])+ '\t' + str(trees))
-		product *= trees
-	print(product)
-
+	baseMap = getBaseMap(inputFile.readlines())
+	slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
+	productOfTreesEncountered = 1
+	for slope in slopes:
+		path = getPathForSlope(baseMap, slope)
+		treesEncountered = len(filter(lambda location: location == '#', path))
+		productOfTreesEncountered *= treesEncountered
+	print(productOfTreesEncountered)
 
 solution()
-
-
-
-
