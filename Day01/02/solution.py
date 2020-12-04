@@ -1,20 +1,19 @@
-YEAR = 2020
+def findNumbersThatAddUpTo(numbers, year):
+	for i in xrange(len(numbers)):
+		for j in xrange(i+1, len(numbers)):
+			remainingSum = year - (numbers[i] + numbers[j])
+			if remainingSum in  numbers[j+1:]:
+				return [numbers[i], numbers[j],  remainingSum]
 
-def getThirdExpense(expenseReport, year):
-	product = 0
-	for i in xrange(len(expenseReport)):
-		for j in xrange(i+1, len(expenseReport)):
-			for k in xrange(j+1, len(expenseReport)):
-				sumOfExpenses = expenseReport[i] + expenseReport[j] + expenseReport[k]
-				if sumOfExpenses == year:
-					return expenseReport[i] * expenseReport[j] * expenseReport[k]
+def getLinesFromInput():
+	inputFile = open('../input.txt', 'r') 
+	return inputFile.readlines()
 
 def solution():
-	inputFile = open('../input.txt', 'r') 
-	reportLines = inputFile.readlines()
-	expenseReport = []
-	for n in reportLines:
-		expenseReport.append(int(n))
-	print (getThirdExpense(expenseReport, YEAR))
+	year = 2020
+	reportLines = getLinesFromInput()
+	numbersInReport = map(lambda x:int(x), reportLines)
+	numbersWhoAddUp  = findNumbersThatAddUpTo(numbersInReport, year)
+	print reduce(lambda num1, num2: num1 * num2, numbersWhoAddUp)
 
 solution()
