@@ -38,16 +38,16 @@ def isValidHeight(height):
 	resultInCentimeters = re.compile('^[0-9]*cm$').search(height)
 	if resultInInches:
 		heightInInches = getHeight(height)
-		return heightInInches >= 59 and heightInInches <= 76
+		return 59 <= heightInInches <= 76
 	elif resultInCentimeters:
 		heightInCentimeters = getHeight(height)
-		return heightInCentimeters >= 150 and heightInCentimeters <= 193
+		return 150 <= heightInCentimeters <= 193
 	return False
 
 def isValidYearWithin(yearAsString, lowerLimit, upperLimit):
 	if len(yearAsString) == 4:
 		year = int(yearAsString)
-		return year >= lowerLimit and year <= upperLimit
+		return lowerLimit <= year <= upperLimit
 	return False
 
 def isValidBirthYear(yearAsString):
