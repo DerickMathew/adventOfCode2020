@@ -1,4 +1,4 @@
-import time
+from time import time
 
 def getLines():
 	inputFile = open('../input.txt', 'r') 
@@ -8,7 +8,7 @@ def getLines():
 # dictionaries are slow when the keys are densely populated 
 def aSlowSolution():
 	lines = getLines()
-	start =  time.time()
+	start =  time()
 	numbers = map(lambda n: int(n), lines[0].split(','))
 	lastNumber = numbers[-1]
 	lastInstance = {}
@@ -26,12 +26,12 @@ def aSlowSolution():
 			lastInstance[newNumber] = (i, newNumPosition)
 		lastNumber = newNumber
 	print lastNumber
-	end = time.time()
+	end = time()
 	print end - start
 
-def solution():
+def solution2():
 	lines = getLines()
-	start =  time.time()
+	start =  time()
 	problemLimit = 30000000
 	numbers = map(lambda n: int(n), lines[0].split(','))
 	lastNumber = numbers[-1]
@@ -47,7 +47,7 @@ def solution():
 		position[newNumber] = i
 		lastNumber = newNumber
 	print lastNumber
-	end = time.time()
+	end = time()
 	print end - start
 
 
