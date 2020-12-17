@@ -6,7 +6,7 @@ def getLines():
 	return map(lambda line: line.split('\n')[0], lines)
 
 # dictionaries are slow when the keys are densely populated 
-def aSlowSolution():
+def aSlowMapSolution():
 	lines = getLines()
 	start =  time()
 	numbers = map(lambda n: int(n), lines[0].split(','))
@@ -29,26 +29,23 @@ def aSlowSolution():
 	end = time()
 	print end - start
 
-def solution2():
+def solution():
 	lines = getLines()
-	start =  time()
+	start = time()
 	problemLimit = 30000000
-	numbers = map(lambda n: int(n), lines[0].split(','))
+	numbers = [int(n) for n in lines[0].split(',')]
 	lastNumber = numbers[-1]
-	position = [-1] * problemLimit
 	previous = [-1] * problemLimit
-	for index in xrange(len(numbers)):
-		position[numbers[index]] = index
-	for i in range(len(numbers) - 1, problemLimit):
+	for index in xrange(len(numbers) - 1):
+		previous[numbers[index]] = index
+	for i in xrange(len(numbers) - 1, problemLimit - 1):
 		newNumber = 0
 		if not (previous[lastNumber] == -1):
-			newNumber = position[lastNumber] - previous[lastNumber]
-		previous[newNumber] = position[newNumber]
-		position[newNumber] = i
+			newNumber = i - previous[lastNumber]
+		previous[lastNumber] = i 
 		lastNumber = newNumber
-	print lastNumber
+	print(lastNumber)
 	end = time()
-	print end - start
-
+	print(end - start)
 
 solution()
