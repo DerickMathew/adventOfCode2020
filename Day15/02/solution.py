@@ -36,10 +36,10 @@ def solution():
 	numbers = [int(n) for n in lines[0].split(',')]
 	lastNumber = numbers[-1]
 	previous = [-1] * problemLimit
-	NumListLength = len(numbers)
-	for index in xrange(NumListLength - 1):
+	numListLength = len(numbers)
+	for index in xrange(numListLength - 1):
 		previous[numbers[index]] = index
-	for i in xrange(NumListLength - 1, problemLimit - 1):
+	for i in xrange(numListLength - 1, problemLimit - 1):
 		lastNumPosition = previous[lastNumber]
 		newNumber = (i - lastNumPosition) if lastNumPosition != -1 else 0
 		previous[lastNumber] = i 
