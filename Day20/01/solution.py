@@ -61,7 +61,6 @@ def getMatches(tiles):
 		matches[tile] = edgeCount
 	return matches
 
-
 def solution():
 	lines = getLines()
 	start = time()
