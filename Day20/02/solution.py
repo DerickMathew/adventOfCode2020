@@ -133,11 +133,71 @@ def solution():
 	start = time()
 	tiles = getTiles(lines)
 	image = getImage(tiles)
-	# images = getAllInstancesOfImages(borderlessImage)
 	images = getAllOrientations(image)
-	# image = filter(lambda image: getSeaMonsterCount(image), images)
 	print getSeasRoughness(images)
 	end = time()
 	print end - start
 
+
+def markSeaMonster(image, y, x):
+	checklist = []
+	checklist.append(image[y][x + 18])
+	checklist.append(image[y + 1][x])
+	checklist.append(image[y + 1][x + 5])
+	checklist.append(image[y + 1][x + 6])
+	checklist.append(image[y + 1][x + 11])
+	checklist.append(image[y + 1][x + 12])
+	checklist.append(image[y + 1][x + 17])
+	checklist.append(image[y + 1][x + 18])
+	checklist.append(image[y + 1][x + 19])
+	checklist.append(image[y + 2][x + 1])
+	checklist.append(image[y + 2][x + 4])
+	checklist.append(image[y + 2][x + 7])
+	checklist.append(image[y + 2][x + 10])
+	checklist.append(image[y + 2][x + 13])
+	checklist.append(image[y + 2][x + 16])
+	monsterMap = [
+		(y, x + 18), (y + 1, x), 
+		(y + 1, x + 5), (y + 1, x + 6),
+		(y + 1, x + 11), (y + 1, x + 12),
+		(y + 1, x + 17), (y + 1, x + 18),
+		(y + 1, x + 19), (y + 2, x + 1),
+		(y + 2, x + 4), (y + 2, x + 7),
+		(y + 2, x + 10), (y + 2, x + 13),
+		(y + 2, x + 16)
+	]
+	if len(filter(lambda x: x != '#', checklist)) != 0:
+		return image
+	newImage = []	
+	for y in xrange(len(image)):
+		newImage.append(image[y][:])
+		for x in xrange(len(image)):
+			if (y, x) in monsterMap:
+				newImage[y][x] = 'O'
+	return newImage
+
+def markSeaMonsters(image):
+	seaMonsterHeight = 3
+	seaMonsterLength = 20
+	seaMonsterCount = 0 
+	for y in xrange(len(image) - seaMonsterHeight):
+		for x in xrange(len(image[0]) - seaMonsterLength):
+			if hasSeaMonster(image, y, x):
+				image = markSeaMonster(image, y, x)
+	return image
+
+def printSeaMonsterMap():
+	lines = getLines()
+	start = time()
+	tiles = getTiles(lines)
+	image = getImage(tiles)
+	images = getAllOrientations(image)
+	seaMonsterImage = filter(lambda image: getSeaMonsterCount(image), images)[0]
+	mappedSeaMonsters = markSeaMonsters(seaMonsterImage)
+	print ''
+	for line in mappedSeaMonsters:
+		print ''.join(line)
+	print ''
+
 solution()
+printSeaMonsterMap()
